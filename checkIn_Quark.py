@@ -26,11 +26,11 @@ def get_env():
     return cookie_list 
 
 def send_push_notification(content):
-	pushplus_token = os.getenv("PUSHPLUS_TOKEN")
-	if not pushplus_token:
-		print("❌ 未配置 PUSHPLUS Token")
-		send('夸克自动签到', '❌ 未配置 PUSHPLUS Token')
-		return False
+    pushplus_token = os.getenv("PUSHPLUS_TOKEN")
+    if not pushplus_token:
+	print("❌ 未配置 PUSHPLUS Token")
+	send('夸克自动签到', '❌ 未配置 PUSHPLUS Token')
+	return False
 		
     url = 'http://www.pushplus.plus/send'
     data = {
