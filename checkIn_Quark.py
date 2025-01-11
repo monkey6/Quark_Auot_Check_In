@@ -203,7 +203,7 @@ def main():
     # print(msg)
 
     try:
-	send('夸克自动签到', msg)
+        send('夸克自动签到', msg)
         send_push_notification(msg)
     except Exception as err:
         print('%s\n❌ 错误，请查看运行日志！' % err)
