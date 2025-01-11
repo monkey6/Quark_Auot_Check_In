@@ -2,6 +2,7 @@ import os
 import re 
 import sys 
 import requests 
+import json
 
 cookie_list = os.getenv("COOKIE_QUARK").split('\n|&&')
 
@@ -24,7 +25,34 @@ def get_env():
 
     return cookie_list 
 
-# 其他代码...
+def send_push_notification(content):
+	pushplus_token = os.getenv("PUSHPLUS_TOKEN")
+	if not pushplus_token:
+		print("❌ 未配置 PUSHPLUS Token")
+		send('夸克自动签到', '❌ 未配置 PUSHPLUS Token')
+		return False
+		
+    url = 'http://www.pushplus.plus/send'
+    data = {
+        "token": pushplus_token,
+        "title": '夸克签到',
+        "content": content
+    }
+    body = json.dumps(data).encode(encoding='utf-8')
+    headers = {'Content-Type': 'application/json'}
+
+	try:
+        response = requests.post(url, data=body, headers=headers)
+        if response.status_code == 200:
+            print("✅ pushplus 通知发送成功")
+            return True
+        else:
+            print(f"❌ pushplus 通知发送失败: {response.status_code} - {response.text}")
+            return False
+    except Exception as e:
+        print(f"❌ pushplus 通知发送异常: {str(e)}")
+        return False
+
 
 class Quark:
     '''
@@ -176,6 +204,7 @@ def main():
 
     try:
         send('夸克自动签到', msg)
+		send_push_notification(msg)
     except Exception as err:
         print('%s\n❌ 错误，请查看运行日志！' % err)
 
