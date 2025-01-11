@@ -28,10 +28,10 @@ def get_env():
 def send_push_notification(content):
     pushplus_token = os.getenv("PUSHPLUS_TOKEN")
     if not pushplus_token:
-	print("❌ 未配置 PUSHPLUS Token")
-	send('夸克自动签到', '❌ 未配置 PUSHPLUS Token')
-	return False
-		
+        print("❌ 未配置 PUSHPLUS Token")
+        send('夸克自动签到', '❌ 未配置 PUSHPLUS Token')
+        return False
+        
     url = 'http://www.pushplus.plus/send'
     data = {
         "token": pushplus_token,
@@ -41,7 +41,7 @@ def send_push_notification(content):
     body = json.dumps(data).encode(encoding='utf-8')
     headers = {'Content-Type': 'application/json'}
 
-	try:
+    try:
         response = requests.post(url, data=body, headers=headers)
         if response.status_code == 200:
             print("✅ pushplus 通知发送成功")
